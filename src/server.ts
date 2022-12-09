@@ -36,7 +36,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server......")
 })
 
-// Escuchar peticiones
+//// Escuchar peticiones
 const port = process.env.PORT || 3000
 app.listen(port, () => {
   console.log("Website served on http://localhost:" + port)
