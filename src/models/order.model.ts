@@ -1,16 +1,5 @@
 import { model, Schema, Types } from "mongoose"
-import { OrderStatus } from "../helpers/order-status"
 import { Producto, ProductoSchema } from "./producto.model"
-
-export interface LatLng {
-  lat: string
-  lng: string
-}
-
-export const LatLngSchema = new Schema<LatLng>({
-  lat: { type: String, required: true },
-  lng: { type: String, required: true },
-})
 
 export interface OrderItem {
   producto: Producto
@@ -27,12 +16,9 @@ export const OrderItemSchema = new Schema<OrderItem>({
 export interface Order {
   id: string
   items: OrderItem[]
-  totalprecio: number
-  nombre: string
-  direccion: string
-  direccionLatLng: LatLng
-  pagoId: string
-  status: OrderStatus
+  totalPrice: number
+  name: string
+  address: string
   user: Types.ObjectId
   createdAt: Date
   updatedAt: Date
@@ -40,13 +26,10 @@ export interface Order {
 
 const orderSchema = new Schema<Order>(
   {
-    nombre: { type: String, required: true },
-    direccion: { type: String, required: true },
-    direccionLatLng: { type: LatLngSchema, required: true },
-    pagoId: { type: String },
-    totalprecio: { type: Number, required: true },
+    name: { type: String, required: true },
+    address: { type: String, required: true },
+    totalPrice: { type: Number, required: true },
     items: { type: [OrderItemSchema], required: true },
-    status: { type: String, default: OrderStatus.NEW },
     user: { type: Schema.Types.ObjectId, required: true },
   },
   {

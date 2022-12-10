@@ -13,7 +13,7 @@ export const login = asyncHandler(async (req, res) => {
   if (user && (await bcrypt.compare(password, user.password))) {
     res.send(generateTokenReponse(user))
   } else {
-    res.status(HTTP_BAD_REQUEST).send("Username or password is invalid!")
+    res.status(HTTP_BAD_REQUEST).send("Correo o password incorrecto!")
   }
 })
 
@@ -21,7 +21,9 @@ export const registro = asyncHandler(async (req, res) => {
   const { name, email, password, address } = req.body
   const user = await UserModel.findOne({ email })
   if (user) {
-    res.status(HTTP_BAD_REQUEST).send("User is already exist, please login!")
+    res
+      .status(HTTP_BAD_REQUEST)
+      .send("El correo ya esta registrado, has login!")
     return
   }
 
@@ -38,4 +40,10 @@ export const registro = asyncHandler(async (req, res) => {
 
   const dbUser = await UserModel.create(newUser)
   res.send(generateTokenReponse(dbUser))
+})
+
+//Obtener un usuario
+export const obtenerUsuario = asyncHandler(async (req, res) => {
+  const usuario = await UserModel.findById(req.params.userId)
+  res.send(usuario)
 })
